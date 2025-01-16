@@ -1,0 +1,57 @@
++---------------------+
+|     Frontend        |
+|   (Next.js UI)      |
+|---------------------|
+          |
+          | (User interacts: Browsing products, Adding to cart, Checkout)
+          v
++---------------------+        +--------------------+
+|     Sanity CMS      |<------>|  Product Data API  |
+|---------------------|        |--------------------|
+| Stores products,    |        | Fetches product    |
+| orders, and users.  |<------>| data dynamically.  |
+|                     |        +--------------------+
++---------------------+
+          |
+          v
++---------------------+  
+| Third-Party APIs    |      
+|---------------------|  
+| - Shipment Tracking |  
+| - Email/SMS         |  
++---------------------+  
+          |
+          v
++---------------------+
+|  Payment Gateway    |
+|---------------------|
+| Processes payments  |
+| via Stripe/PayPal   |
++---------------------+
+          |
+          v
++---------------------+
+|  User Registration  |
+|---------------------|
+| Data stored in Sanity|
+| CMS, Confirmation    |
+| email sent via API   |
++---------------------+
+          |
+          v
++---------------------+
+|  Order Placement    |
+|---------------------|
+| Order data sent to  |
+| Sanity CMS, Payment |
+| processed, Order    |
+| confirmed           |
++---------------------+
+          |
+          v
++---------------------+
+|  Shipment Tracking  |
+|---------------------|
+| Real-time updates   |
+| via Shipment API    |
++---------------------+
