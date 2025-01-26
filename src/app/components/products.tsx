@@ -8,7 +8,7 @@ import gym from "@/app/images/gym1.png";
 import Link from "next/link";
 import { urlFor } from "@/sanity/lib/image";
 import { useState, useEffect } from "react";
-import { client } from "@/sanity/lib/client";
+import client from "../../sanity/lib/client";
 import { eight } from "@/sanity/lib/queries";
 import type { Products } from "../../../types/products";
 import { addToCart } from "../actions/actions";

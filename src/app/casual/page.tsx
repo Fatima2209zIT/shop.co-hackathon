@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Products } from "../../../types/products";
-import { client } from "@/sanity/lib/client";
+import client from "../../sanity/lib/client";
 import { allProducts } from "@/sanity/lib/queries";
 import imageUrlBuilder from "@sanity/image-url";
 import stars from "@/app/images/starsrate.png";
