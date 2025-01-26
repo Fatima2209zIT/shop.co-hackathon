@@ -2,13 +2,13 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Products } from "../../../types/products";
-import client from "../../sanity/lib/client";
 import { allProducts } from "@/sanity/lib/queries";
 import imageUrlBuilder from "@sanity/image-url";
 import stars from "@/app/images/starsrate.png";
 import Link from "next/link";
 import { addToCart } from "../actions/actions";
 import Swal from "sweetalert2";
+import client from "@/sanity/lib/client"; // Add this line to import the client
 
 
 export default function Casual() {
