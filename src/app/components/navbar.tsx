@@ -112,8 +112,9 @@ export default function Navbar() {
           <a href="/cart">
             <Image src={Cart} alt="cart" width={24} height={24} />
           </a>
-
+          <a href="/login">
           <Image src={User} alt="user" width={24} height={24} />
+          </a>
         </div>
 
         {/* Desktop Icons */}
@@ -121,8 +122,9 @@ export default function Navbar() {
           <a href="/cart">
             <Image src={Cart} alt="cart" width={22} height={20} />
           </a>
-
+          <a href="/login">
           <Image src={User} alt="user" width={22} height={20} />
+          </a>
         </div>
       </div>
     </nav>

@@ -1,142 +1,3 @@
-// "use client";
-// import { useEffect, useState } from 'react';
-// import Image from 'next/image';
-// import { urlFor } from '@/sanity/lib/image';
-
-// interface Product {
-//   _id: string;
-//   name: string;
-//   image: string;
-//   quantity: number;
-//   price: number;
-// }
-
-// export default function CartPage() {
-//   const [products, setProducts] = useState<Product[]>([]);
-
-//   useEffect(() => {
-//     const cart = JSON.parse(localStorage.getItem('cart') || '{}');
-//     const items = Object.values(cart) as Product[];
-//     setProducts(items);
-//   }, []);
-
-//   const updateLocalStorage = (updatedCart: Product[]) => {
-//     localStorage.setItem('cart', JSON.stringify(Object.fromEntries(updatedCart.map((p) => [p.name, p]))));
-//   };
-
-//   const handleIncrease = (name: string) => {
-//     const updatedCart = products.map((product) =>
-//       product.name === name ? { ...product, quantity: product.quantity + 1 } : product
-//     );
-//     setProducts(updatedCart);
-//     updateLocalStorage(updatedCart);
-//   };
-
-//   const handleDecrease = (name: string) => {
-//     const updatedCart = products
-//       .map((product) =>
-//         product.name === name && product.quantity > 1
-//           ? { ...product, quantity: product.quantity - 1 }
-//           : product
-//       )
-//       .filter((product) => product.quantity > 0);
-//     setProducts(updatedCart);
-//     updateLocalStorage(updatedCart);
-//   };
-
-//   const handleRemove = (name: string) => {
-//     const updatedCart = products.filter((product) => product.name !== name);
-//     setProducts(updatedCart);
-//     updateLocalStorage(updatedCart);
-//   };
-
-//   const total = products.reduce((acc, product) => acc + product.price * product.quantity, 0);
-//   const discount = total * 0.2; // 20% discount
-//   const deliveryFee = 15;
-//   const finalTotal = total - discount + deliveryFee;
-
-//   return (
-//     <div className="flex flex-col p-4 md:p-6 bg-gray-50 min-h-screen">
-//       <h1 className= "p-8 text-2xl md:text-3xl font-bold mb-6 text-center">Your Cart</h1>
-
-//       {products.length === 0 ? (
-//         <p className="text-center text-gray-500">Your cart is empty!</p>
-//       ) : (
-//         <div className="max-w-4xl mx-auto space-y-6">
-//           {products.map((product) => (
-//             <div
-//               key={product._id}
-//               className="flex flex-col md:flex-row items-center justify-between bg-white p-4 shadow rounded-lg"
-//             >
-//               <div className="flex items-center space-x-4">
-//                 <Image
-//                   src={urlFor(product.image).url()}
-//                   alt={product.name}
-//                   width={80}
-//                   height={80}
-//                   className="rounded"
-//                 />
-//                 <div className="text-center md:text-left">
-//                   <h2 className="text-lg font-semibold">{product.name}</h2>
-//                   <p className="text-gray-600">Price: ${product.price}</p>
-//                   <p className="text-gray-600">Quantity: {product.quantity}</p>
-//                 </div>
-//               </div>
-
-//               <div className="flex items-center space-x-2 mt-4 md:mt-0">
-//                 <button
-//                   onClick={() => handleDecrease(product.name)}
-//                   className="bg-gray-200 text-gray-600 px-3 py-1 rounded hover:bg-gray-300"
-//                 >
-//                   -
-//                 </button>
-//                 <span className="font-semibold text-gray-700">{product.quantity}</span>
-//                 <button
-//                   onClick={() => handleIncrease(product.name)}
-//                   className="bg-gray-200 text-gray-600 px-3 py-1 rounded hover:bg-gray-300"
-//                 >
-//                   +
-//                 </button>
-//               </div>
-
-//               <button
-//                 onClick={() => handleRemove(product.name)}
-//                 className="text-red-500 hover:text-red-700 font-semibold mt-4 md:mt-0"
-//               >
-//                 Remove
-//               </button>
-//             </div>
-//           ))}
-
-//           <div className="bg-white p-4 shadow rounded-lg space-y-4">
-//             <div className="flex justify-between">
-//               <span className="text-gray-600">Subtotal</span>
-//               <span className="font-semibold">${total.toFixed(2)}</span>
-//             </div>
-//             <div className="flex justify-between">
-//               <span className="text-gray-600">Discount (20%)</span>
-//               <span className="font-semibold text-red-500">-${discount.toFixed(2)}</span>
-//             </div>
-//             <div className="flex justify-between">
-//               <span className="text-gray-600">Delivery Fee</span>
-//               <span className="font-semibold">${deliveryFee.toFixed(2)}</span>
-//             </div>
-//             <div className="flex justify-between text-lg font-bold">
-//               <span>Total</span>
-//               <span>${finalTotal.toFixed(2)}</span>
-//             </div>
-//           </div>
-
-//           <button
-//             className="bg-black text-white font-bold py-3 rounded-lg w-full hover:bg-gray-800"
-//           >
-//             Go to Checkout
-//           </button>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
 "use client";
 
 import { Products } from "../../../types/products";
@@ -149,6 +10,8 @@ import {
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
+import AuthGuard from "../components/AuthGuard";
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState<Products[]>([]);
@@ -156,7 +19,7 @@ const CartPage = () => {
   useEffect(() => {
     setCartItems(getCartItems());
   }, []);
-
+  const router = useRouter();
   const handleRemove = (id: string) => {
     Swal.fire({
       title: "Are you sure?",
@@ -221,13 +84,14 @@ const CartPage = () => {
           "Your order has been successfully processed!",
           "success"
         );
-        // Clear the cart after proceeding (optional)
+        router.push("/checkout");
         setCartItems([]);
       }
     });
   };
 
   return (
+    <AuthGuard>
     <div className="p-6 bg-gray-100 min-h-screen">
       <h1 className="p-8 text-2xl font-bold mb-6 text-gray-800 text-center">Shopping Cart</h1>
 
@@ -301,6 +165,7 @@ const CartPage = () => {
         </div>
       )}
     </div>
+    </AuthGuard>
   );
 };
 
