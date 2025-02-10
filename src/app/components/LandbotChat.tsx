@@ -1,22 +1,32 @@
 "use client";
 import { useEffect } from "react";
 
+declare global {
+  interface Window {
+    Landbot: {
+      Livechat: new (config: { configUrl: string }) => void;
+    };
+  }
+}
+
 const LandbotChat = () => {
   useEffect(() => {
-    let myLandbot: any = null;
-
     const initLandbot = () => {
-      if (typeof window !== "undefined" && !myLandbot) {
+      if (typeof window !== "undefined") {
         const script = document.createElement("script");
         script.type = "module";
         script.async = true;
         script.src = "https://cdn.landbot.io/landbot-3/landbot-3.0.0.mjs";
 
         script.onload = () => {
-          myLandbot = new (window as any).Landbot.Livechat({
-            configUrl:
-              "https://storage.googleapis.com/landbot.online/v3/H-2780936-KKJV5IQV2SFIG5TK/index.json",
-          });
+          try {
+            new window.Landbot.Livechat({
+              configUrl:
+                "https://storage.googleapis.com/landbot.online/v3/H-2780936-KKJV5IQV2SFIG5TK/index.json",
+            });
+          } catch (error) {
+            console.error("Error initializing Landbot:", error);
+          }
         };
 
         document.body.appendChild(script);
@@ -32,10 +42,9 @@ const LandbotChat = () => {
     };
   }, []);
 
-  return null; // The chatbot is floating, no UI needed
+  return null;
 };
 
 export default LandbotChat;
-
 
 
